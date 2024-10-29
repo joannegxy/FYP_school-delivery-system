@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!--记住 我的电脑这里只能是http才能出来小鸟-->
+<mapper namespace="com.fyp.mapper.OrderMapper">
+
+    <resultMap id="order" type="com.fyp.pojo.Order">
+        <id property="id" column="id"/>
+        <result property="cid" column="cid"/>
+        <result column="iid" property="iid"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="count" column="count"/>
+        <result property="total" column="total"/>
+        <result property="status" column="status"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="totalMoney" column="totalMoney"/>
+        <result property="itemId" column="itemId"/>
+        <result property="note" column="note"/>
+        <association property="customer">
+            <id column="id" property="id"/>
+            <result property="customerloginid" column="customerloginid"/>
+            <result column="email" property="email"/>
+            <result column="phone" property="phone"/>
+            <result column="address" property="address"/>
+        </association>
+        <association property="item">
+            <id column="id" property="id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="sid" column="sid"/>
+            <result property="price" column="price"/>
+            <result property="stock" column="stock"/>
+            <result column="status" property="status"/>
+            <result property="descr" column="descr"/>
+            <result column="fimage" property="fimage"/>
+        </association>
+        <association property="deliveryman">
+            <id column="id" property="id"/>
+            <result property="deliverymanloginid" column="deliverymanloginid"/>
+            <result property="sid" column="shop_id"/>
+            <result property="password" column="password"/>
+            <result property="email" column="email"/>
+            <result column="phone" property="phone"/>
+            <result column="cimage" property="cimage"/>
+        </association>
+        <association property="deliveringorder">
+            <id column="id" property="id"/>
+            <result property="did" column="did"/>
+        </association>
+    </resultMap>
+
+
+    <select id="listOrder" resultType="com.fyp.pojo.Order" resultMap="order">
+        select o.id,f.item_name,f.fimage,f.price, o.order_time,o.address,c.customerloginid,o.count, o.total,o.status,o.note,o.phone,c.email
+        from customer c,item f,f_order o
+        <where>
+            AND c.id=o.cid and f.id=o.iid and o.sid=#{sid}
+        </where>
+        order by o.status
+    </select>
+
+    <select id="listToBeDeliveredOrder" resultType="com.fyp.pojo.Order" resultMap="order">
+        select o.id,f.item_name,f.fimage,f.price, o.order_time,c.address,c.customerloginid,o.count, o.total,o.status,o.note,o.phone,c.email
+        from customer c,item f,f_order o
+        <where>
+            AND c.id=o.cid and f.id=o.iid and o.sid=#{sid} and o.status=3
+        </where>
+        order by o.status
+    </select>
+
+    <select id="getOrderById" resultType="com.fyp.pojo.Order" resultMap="order">
+          select  o.id,c.customerloginid,f.item_name,o.cid,o.iid from
+          f_order o,customer c,item f where o.cid=c.id and o.iid=f.id and o.id=#{id}
+    </select>
+    <select id="listMyOrders" resultType="com.fyp.pojo.Order" resultMap="order">
+        select f.item_name,f.fimage,o.count,o.total,o.order_time,o.status,o.id,o.address,o.note, c.address
+        from f_order o,customer c,item f
+        <where>
+            AND c.id=o.cid and f.id=o.iid and o.cid=#{userId}
+            <if test="itemName != null and itemName!='' ">
+                and f.item_name like  concat('%',#{itemName},'%')
+            </if>
+        </where>
+        order by o.status asc
+    </select>
+
+    <select id="invoice" resultType="com.fyp.pojo.Order" resultMap="order">
+        select o.id,c.customerloginid,c.email,o.address,o.phone,o.count,o.total,o.order_time,f.item_name,f.store,f.price
+         from f_order o,customer c,item f where o.iid=f.id and o.cid=c.id and o.id=#{orderId}
+    </select>
+
+    <select id="filterOrderbyStatus" resultType="com.fyp.pojo.Order" resultMap="order">
+        select o.id,f.item_name,f.fimage,f.price, o.order_time,o.address,c.customerloginid,o.count, o.total,o.status,o.note,o.phone,c.email
+        from customer c,item f,f_order o
+        <where>
+            AND c.id=o.cid and f.id=o.iid and o.sid=#{sid} and o.status=#{statusid}
+        </where>
+        order by o.status
+    </select>
+
+    <select id="listDeliveringOrder" resultType="com.fyp.pojo.Order" resultMap="order">
+        select f.item_name,f.fimage,o.count,o.total,o.order_time,o.status,o.id,o.address,o.note,c.address, d.id,d.deliverymanloginid,d2.id,d2.did
+        from f_order o,customer c,item f, deliveryman d, deliveringorder d2
+        <where>
+            AND c.id=o.cid and f.id=o.iid and o.sid=#{sid} and o.id=d2.id
+        </where>
+        order by o.status asc
+    </select>
+
+    <select id="checkOrderbyDeliveryman" resultType="com.fyp.pojo.Order" resultMap="order">
+        select f.item_name,f.fimage,o.count,o.total,o.order_time,o.status,o.id,o.address,o.note,c.address, d.id,d.deliverymanloginid,d2.id,d2.did
+        from f_order o,customer c,item f, deliveryman d, deliveringorder d2
+        <where>
+            AND c.id=o.cid and f.id=o.iid and o.id=d2.id and d2.did=d.id and d.id=#{did}
+        </where>
+        order by o.status asc
+    </select>
+
+</mapper>

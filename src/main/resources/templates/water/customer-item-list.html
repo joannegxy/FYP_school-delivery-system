@@ -1,0 +1,160 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!--Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/range.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+</head>
+<body>
+<div class="loader">
+    <div class="spinner"><img th:src="@{/images/loader.gif}" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper"><!-- Header Start -->
+    <div th:insert="~{header :: header}"></div>
+    <div th:insert="~{sidebar_customer :: sidebar_customer}"></div>
+    <!-- Container Start -->
+    <div class="page-wrapper">
+        <div class="main-content"><!-- Page Title Start -->
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-box">
+                            <h4 class="page-title">订餐</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table Start -->
+            <div class="row ad-btm-space">
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
+                    <div class="int-blog-sidebar">
+                        <div class="int-sidebar-box">
+                            <h4>搜索</h4>
+                            <div class="int-search-btn">
+                                <div class="input-group">
+                                    <form>
+                                        <input type="text" placeholder="Search..." name="itemName">
+                                        <div class="input-group-append">
+                                            <button type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.239 30.239" width="18" height="18">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M20.194,3.46c-4.613-4.613-12.121-4.613-16.734,0c-4.612,4.614-4.612,12.121,0,16.735   c4.108,4.107,10.506,4.547,15.116,1.34c0.097,0.459,0.319,0.897,0.676,1.254l6.718,6.718c0.979,0.977,2.561,0.977,3.535,0   c0.978-0.978,0.978-2.56,0-3.535l-6.718-6.72c-0.355-0.354-0.794-0.577-1.253-0.674C24.743,13.967,24.303,7.57,20.194,3.46z    M18.073,18.074c-3.444,3.444-9.049,3.444-12.492,0c-3.442-3.444-3.442-9.048,0-12.492c3.443-3.443,9.048-3.443,12.492,0   C21.517,9.026,21.517,14.63,18.073,18.074z" data-original="#000000" class="active-path" data-old_color="#000000" fill="#ffffff"></path>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="int-sidebar-box recent-blog-one">
+                            <h4>菜单列表</h4>
+                            <p style="color:red"
+                               th:if="${not #strings.isEmpty(session.msg)}"
+                               th:text="${session.msg}"
+                            <!--这个msg既可以是model里的，也可以是session里的-->
+                            </p>
+                            <th:block th:inline="text">[[${#session.removeAttribute('msg')}]]</th:block>
+                            <div class="int-blog-category-mini">
+                                <ul>
+                                    <li th:each="item,iterStat : ${allitemList}">
+                                        <a th:href="'?pageNum='+${(((iterStat.count)-1)/10)+1}+'#'+${item.getId()}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12px" height="8px">
+                                                <path fill-rule="evenodd" fill=" " d="M0.038,4.720 L6.164,4.710 C6.558,4.710 6.878,4.392 6.878,3.999 L6.878,2.016 L9.967,3.999 L5.777,6.688 C5.445,6.901 5.349,7.342 5.563,7.673 C5.777,8.004 6.219,8.099 6.551,7.886 L11.673,4.597 C11.877,4.466 12.000,4.241 12.000,3.999 C12.000,3.756 11.877,3.531 11.673,3.400 L6.551,0.112 C6.331,-0.030 6.051,-0.040 5.822,0.085 C5.592,0.210 5.449,0.449 5.449,0.710 L5.449,3.286 L0.000,3.286 "/>
+                                            </svg>
+                                            [[${item.itemName}]] </a><span>￥[[${item.price}]]</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                    <div class="main-product-grid">
+                        <ul>
+
+                            <li th:each="item : ${pageInfo.list}">
+                                <div th:id="${item.getId()}">
+                                    <div class="product-grid">
+                                        <div class="product-item"><img th:src="'http://localhost:8088/'+${item.fimage}" alt="product-img"/>
+                                            <div th:if="${item.status}==2" class="product-overlay">
+                                                <h4>下架</h4>
+                                            </div>
+                                            <div class="product-ovr-links">
+                                                <ul>
+                                                    <li th:if="${item.status}==1"><a th:href="@{'/normalUser/itemToCart/'+${store.id}+'/'+${item.id}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="17px" height="16px">
+                                                            <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M16.949,4.171 L14.077,11.019 C13.972,11.258 13.752,11.410 13.501,11.410 L5.608,11.410 C5.325,11.410 5.073,11.215 5.000,10.932 L2.432,1.301 L0.629,1.301 C0.283,1.301 -0.000,1.008 -0.000,0.650 C-0.000,0.291 0.283,-0.002 0.629,-0.002 L2.903,-0.002 C3.186,-0.002 3.438,0.193 3.511,0.476 L6.079,10.107 L13.081,10.107 L15.408,4.562 L7.652,4.562 C7.306,4.562 7.023,4.269 7.023,3.910 C7.023,3.552 7.306,3.259 7.652,3.259 L16.373,3.259 C16.582,3.259 16.781,3.366 16.897,3.552 C17.012,3.737 17.033,3.964 16.949,4.171 ZM5.010,13.040 C5.796,13.040 6.436,13.704 6.436,14.519 C6.436,15.334 5.796,15.998 5.010,15.998 C4.224,15.998 3.585,15.334 3.585,14.519 C3.585,13.704 4.224,13.040 5.010,13.040 ZM13.825,13.040 C14.612,12.987 15.293,13.606 15.345,14.410 C15.366,14.813 15.251,15.192 15.000,15.486 C14.748,15.791 14.402,15.965 14.025,15.998 C13.993,15.998 13.951,15.998 13.920,15.998 C13.176,15.998 12.557,15.389 12.505,14.617 C12.452,13.813 13.039,13.095 13.825,13.040 Z"/>
+                                                        </svg>
+                                                    </a></li>
+                                                    <li th:if="${item.status}==1"><a th:href="@{'/normalUser/toItemSingle/'+${item.id}}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="16px">
+                                                            <path fill-rule="evenodd" fill="rgb(255, 255, 255)" d="M14.766,14.570 L11.069,10.609 C12.020,9.445 12.540,7.981 12.540,6.456 C12.540,2.894 9.727,-0.002 6.269,-0.002 C2.812,-0.002 -0.002,2.894 -0.002,6.456 C-0.002,10.018 2.812,12.916 6.269,12.916 C7.567,12.916 8.804,12.512 9.862,11.747 L13.587,15.738 C13.742,15.905 13.952,15.997 14.176,15.997 C14.389,15.997 14.590,15.914 14.743,15.761 C15.068,15.439 15.078,14.904 14.766,14.570 ZM6.269,1.682 C8.825,1.682 10.904,3.823 10.904,6.456 C10.904,9.090 8.825,11.231 6.269,11.231 C3.714,11.231 1.634,9.090 1.634,6.456 C1.634,3.823 3.714,1.682 6.269,1.682 Z"/>
+                                                        </svg>
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="product-text-rs"><a href="javascript:;"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></a>
+                                            <h3>[[${item.itemName}]]</h3>
+                                            <h6>剩余：[[${item.stock}]]</h6>
+                                            <p>单价：￥[[${item.price}]]</p>
+                                        </div>
+                                    </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="tp-pagination">
+                        <ul>
+                            <li th:if="!${pageInfo.hasPreviousPage}"><a ><i class="fa fa-angle-left disabled" aria-hidden="true"></i></a></li>
+                            <li th:if="${pageInfo.hasPreviousPage}"><a th:href="'/normalUser/listItem?pageNum='+${pageInfo.prePage}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+
+                            <li th:each="nav:${pageInfo.navigatepageNums}">
+                                <a th:href="'/normalUser/listItem?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+                                <a th:text="${nav}" th:if="${nav == pageInfo.pageNum}" class="active"></a><!--如果是当前页，则设为高亮-->
+                            </li>
+
+                            <li th:if="!${pageInfo.hasNextPage}"><a href="javascript:;"><i class="fa fa-angle-right disabled" aria-hidden="true"></i></a></li>
+                            <li th:if="${pageInfo.hasNextPage}"><a th:href="'/normalUser/listItem?pageNum='+${pageInfo.nextPage}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                        </ul>
+                        <a th:href="@{'/normalUser/cart/'+${store.id}}" class="btn btn-danger squer-btn mt-2 mr-2">本店购物车</a>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="ad-footer-btm">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script src="https://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

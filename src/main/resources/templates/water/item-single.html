@@ -1,0 +1,133 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!--Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+    <link rel="stylesheet" th:href="@{/css/swiper.min.css}">
+    <!--Page Specific -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/nice-select.css}">
+    <!--Custom Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+</head>
+<body>
+<div class="loader">
+    <div class="spinner"><img src="assets/images/loader.gif" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper"><!-- Header Start -->
+    <div th:insert="~{header :: header}"></div>
+    <div th:insert="~{sidebar_customer :: sidebar_customer}"></div>
+
+    <!-- Container Start -->
+    <div class="page-wrapper">
+        <div class="main-content"><!-- Page Title Start -->
+            <div class="row">
+                <div class="col xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-box">
+                        </div>
+                        <div class="breadcrumb-list">
+                            <ul>
+                                <li class="breadcrumb-link"><a href="javascript:void(0);"><i class="fas fa-home mr-2"></i>Dashboard</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Products view Start --><!--===Start Index2 Product single Section===-->
+            <div class="int-product-single">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="int-thumb-slider"><!-- Swiper -->
+                            <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide"><img th:src="'http://localhost:8088/'+${item.fimage}" alt="product-img"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="int-minithumb-slider">
+                            <div class="swiper-container gallery-thumbs">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide" th:each="storeitem : ${itemList}">
+                                        <a th:href="@{'/normalUser/toItemSingle/'+${storeitem.id}}">
+                                            <img th:src="'http://localhost:8088/'+${storeitem.fimage}" alt="product-img">
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Swiper --></div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12">
+                        <div class="int-thumb-sidebar">
+                            <div class="int-price-detail">
+                                <h1>[[${item.itemName}]]</h1>
+                                <ul>
+                                    <li>￥[[${item.price}]]</li>
+                                    <li>￥[[${item.price+5}]]</li>
+                                    <li>热卖中</li>
+                                    <li>评分</li>
+                                    <li><i class="fa fa-star active" aria-hidden="true"></i><i class="fa fa-star active" aria-hidden="true"></i><i class="fa fa-star active" aria-hidden="true"></i><i class="fa fa-star active" aria-hidden="true"></i><i class="fa fa-star active" aria-hidden="true"></i></li>
+                                </ul>
+                            </div>
+                            <div class="int-thumb-description">
+                                <p>[[${item.descr}]]</p>
+                                <ul>
+                                    <li><span>月售：</span>1000+</li>
+                                    <li><span>配送：</span>40分钟</li>
+                                    <li><span>好评度：</span>100%</li>
+                                    <li><span>折扣：</span>6.38折</li>
+                                </ul>
+                            </div>
+
+                            <div class="int-quantity-style2">
+                                <div class="int-textbox-subscribe4">
+                                    <p>配送</p>
+
+                                    <span>订单将于支付后40分钟内配送</span></div>
+                            </div>
+                            <div class="int-quantity-stock">
+                                <h5>剩余：<span>[[${item.stock}]]</span></h5>
+                                <ul style="gap: 10px;
+
+\">
+                                    <li><a th:href="@{'/normalUser/itemToCart/'+${item.sid}+'/'+${item.id}}" class="ad-btn">加入购物车</a></li>
+                                    <li><a th:href="@{'/normalUser/viewstore/'+${item.sid}}" class="ad-btn">返回店铺</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--======End Index2 Product single Section======--><!--===Products Details===-->
+
+
+        </div>
+    </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/swiper.min.js}"></script>
+<!-- Page Specific -->
+<script th:src="@{/js/nice-select.min.js}"></script>
+<!-- Custom Script --><script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>header</title>
+</head>
+<body>
+<!-- Header Start -->
+<div th:fragment="header">
+  <header class="header-wrapper main-header">
+    <div class="header-inner-wrapper">
+      <div class="logo-wrapper"><h2 style="color: white;">校园下单配送系统</h2></div>
+      <div class="header-right">
+        <div class="serch-wrapper">
+          <a class="search-close" href="javascript:void(0);"><span class="icofont-close-line"></span></a></div>
+        <div class="header-left">
+          <div class="header-links"><a href="javascript:void(0);" class="toggle-btn"><span></span></a></div>
+        </div>
+        <div class="header-controls">
+          <!--个人信息-->
+          <div class="user-info-wrapper header-links">
+            <a href="javascript:void(0);" class="user-info"><img th:src="'http://localhost:8088/'+${session.image}" alt="" class="user-img">
+              <div class="blink-animation"><span class="blink-circle"></span><span class="main-circle"></span></div>
+            </a>
+            <div class="user-info-box">
+              <div class="drop-down-header">
+                <h4>[[${session.currentUser}]]</h4>
+                <p>[[${session.email}]]</p>
+              </div>
+              <ul>
+                <li><a th:href="@{/toprofile}"><i class="far fa-edit"></i>个人信息</a></li>
+                <li><a href="javascript:void(0);"><i class="fas fa-cog"></i>设置 </a></li>
+                <li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i>退出 </a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+</body>
+</html>

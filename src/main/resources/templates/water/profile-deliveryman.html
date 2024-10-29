@@ -1,0 +1,112 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+  <title>校园下单配送系统</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="MobileOptimized" content="320">
+  <!--Start Style -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+  <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+  <link rel="stylesheet" th:href="@{/css/swiper.min.css}">
+  <!--Page Specific -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/nice-select.css}">
+  <!--Custom Style -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+  <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+  <!-- Favicon Link -->
+  <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+</head>
+<body>
+<div class="loader">
+  <div class="spinner"><img src="assets/images/loader.gif" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper"><!-- Header Start -->
+  <div th:insert="~{header :: header}"></div>
+  <div th:insert="~{sidebar_deliveryman :: sidebar_deliveryman}"></div>
+  <!-- Container Start -->
+  <div class="page-wrapper">
+    <div class="main-content"><!-- Page Title Start -->
+      <div class="row">
+        <div class="col xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="page-title-wrapper">
+            <div class="page-title-box">
+              <h4 class="page-title">个人简介</h4>
+            </div>
+            <div class="breadcrumb-list">
+              <ul>
+                <li class="breadcrumb-link"><a href="javascript:void(0);"><i class="fas fa-home mr-2"></i>Dashboard</a></li>
+                <li class="breadcrumb-link active">个人简介</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Products view Start -->
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="card">
+            <grammarly-extension data-grammarly-shadow-root="true" style="position: absolute; top: 0px; left: 0px; pointer-events: none;" class="cGcvT"></grammarly-extension>
+            <div class="card-header">
+              <h4 class="card-title mb-0">个人简介</h4>
+              <div class="card-options"><a class="card-options-collapse" href="javascript:;" data-bs-toggle="card-collapse" data-bs-original-title="" title=""><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="javascript:;" data-bs-toggle="card-remove" data-bs-original-title="" title=""><i class="fe fe-x"></i></a></div>
+            </div>
+            <div class="card-body">
+              <form th:action="@{/updateDeliverymanProfile}">
+                <div class="profile-title">
+                  <div class="media ad-profile2-img">
+                    <div class="media-body">
+                      <h5 class="mb-1">[[${user.deliverymanloginid}]]</h5>
+                      <p>昵称</p>
+                    </div>
+                  </div>
+                </div>
+
+                <input type="hidden" th:value="${user.id}" name="id"/>
+                <div class="mb-3">
+                  <label class="form-label">用户名</label>
+                  <input class="form-control" th:value="${user.deliverymanloginid}" data-bs-original-title="" name="deliverymanloginid" readonly>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">邮箱</label>
+                  <input class="form-control"  data-bs-original-title="" th:value="${user.email}" name="email">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">手机</label>
+                  <input class="form-control"  data-bs-original-title="" th:value="${user.phone}" name="phone">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">头像</label>
+                  <input class="form-control" type="file" ame="file">
+                </div>
+                <div class="form-footer">
+                  <button class="btn btn-primary squer-btn" type="submit">保存</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/swiper.min.js}"></script>
+<!-- Page Specific -->
+<script th:src="@{/js/nice-select.min.js}"></script>
+<!-- Custom Script -->
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

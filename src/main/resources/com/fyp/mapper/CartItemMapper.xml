@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!--记住 我的电脑这里只能是http才能出来小鸟-->
+<mapper namespace="com.fyp.mapper.CartItemMapper">
+
+    <resultMap id="cartitem" type="com.fyp.pojo.CartItem">
+        <result property="cid" column="cid"/>
+        <result property="iid" column="iid"/>
+        <result property="count" column="count"/>
+        <result property="note" column="note"/>
+        <association property="customer">
+            <id column="id" property="id"/>
+            <result property="customerloginid" column="customer_loginid"/>
+            <result column="email" property="email"/>
+            <result column="phone" property="phone"/>
+            <result column="address" property="address"/>
+        </association>
+        <association property="item">
+            <id column="id" property="id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="sid" column="sid"/>
+            <result property="price" column="price"/>
+            <result property="stock" column="stock"/>
+            <result column="status" property="status"/>
+            <result property="descr" column="descr"/>
+            <result column="fimage" property="fimage"/>
+        </association>
+    </resultMap>
+
+    <select id="payOrder" resultType="com.fyp.pojo.CartItem" resultMap="cartitem">
+        select * from cartitem i
+        <where>
+        i.cid=#{userId} and i.iid in (select id from item where sid=#{sid})
+        </where>
+    </select>
+
+    <delete id="clearAllCartItem" parameterType="com.fyp.pojo.CartItem">
+        delete from cartitem where cid=#{userId} and iid in (select id from item where item.sid=#{sid})
+    </delete>
+
+    <update id="updateCartItemCount">
+        update cartitem set count=#{count} where cid=#{userId} and iid=#{iid}
+    </update>
+
+    <update id="updateCartItemNote">
+        update cartitem set note=#{note} where cid=#{userId} and iid=#{iid}
+    </update>
+
+    <select id="myCart" resultType="java.util.List" resultMap="cartitem">
+        select * from item f,customer c ,cartitem i
+        <where> i.iid=f.id and i.cid=c.id and c.id=#{userId} and f.sid=#{sid}</where>
+    </select>
+
+    <insert id="addCartItem" parameterType="com.fyp.pojo.CartItem">
+        insert into cartitem(cid,iid,count) values(#{cid},#{iid},#{count})
+    </insert>
+</mapper>

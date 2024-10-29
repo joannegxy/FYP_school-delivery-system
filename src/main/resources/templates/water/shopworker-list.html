@@ -1,0 +1,167 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!--Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+    <style>
+        .myWorkerImage{
+            width:40px;
+            height:40px;
+        }
+    </style>
+    <!--批量删除-->
+    <script>
+        $(function () {
+            $("#selectAll").click(function () {
+                $("input[name=chkHistory]").prop("checked",$(this).prop("checked"));
+            })
+
+            $("#batchDelete").click(function () {
+                let chList = $("input[name=chkHistory]:checked");
+                if (chList.length == 0){
+                    alert("请至少选择一项");
+                    return;
+                }
+                let ids = "";
+                $(chList).each(function () {
+                    let id = $(this).val();
+                    ids += ","+id;
+                })
+                $.ajax({
+                    url:'/shopworker/batchDeleteShopWorker',
+                    data:{
+                        idList:ids
+                    },
+                    method:'POST',
+                    success:function (data) {
+                        if (data == "OK"){
+                            alert("批量删除成功");
+                            window.location.href ="/shopworker/listshopworker";
+                        }else {
+                            alert("批量删除失败");
+                        }
+                    }
+                })
+
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="loader">
+    <div class="spinner"><img src="assets/images/loader.gif" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper">
+    <div th:insert="~{header :: header}"></div>
+    <div th:insert="~{sidebar_shopowner :: sidebar_shopowner}"></div>
+    <!-- Container Start -->
+    <div class="page-wrapper">
+        <div class="main-content"><!-- Page Title Start -->
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-box ad-title-box-use">
+                            <span class="page-title" style="font-size: 18px"><strong>工作人员列表</strong></span>
+                            <button class="btn btn-danger squer-btn mt-2 mr-2" style="margin-bottom: 14px" id="batchDelete">批量删除</button>
+                        </div>
+
+                        <div class="ad-breadcrumb">
+                            <ul>
+                                <li>
+                                    <div class="add-group"><a class="ad-btn" th:href="@{/shopworker/preSaveshopworker}">添加工作人员</a></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Table Start -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card table-card">
+                        <div class="card-header pb-0">
+                            <h4>工作人员列表</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-holder">
+                                <div class="table-responsive">
+                                    <table class="table table-styled mb-0" id="sortTable">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>工作人员</th>
+                                            <th>工作人员姓名</th>
+                                            <th>邮箱</th>
+                                            <th>手机</th>
+                                            <th style="text-align: center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="shopworker : ${pageInfo.list}">
+                                            <td>
+                                                <input type="checkbox" th:value="${shopworker.id}" name="chkHistory"/>
+                                            </td>
+
+                                            <td th:text="${shopworker.id}"></td>
+                                            <td><span class="img-thumb"><span class="ml-2 ">[[${shopworker.shopworkerloginid}]]</span></span></td>
+
+                                            <td th:text="${shopworker.email}"></td>
+                                            <td th:text="${shopworker.phone}"></td>
+
+                                            <td style="text-align: center;width: 250px;padding-right: 15px">
+                                                <a type="button" class="effect-btn sm-btn btn btn-primary mt-2 mr-2" th:href="@{'/shopworker/preUpdateShopWorker/'+${shopworker.id}}"><i class="far fa-edit "></i>修改</a>
+                                                <a type="button" class="effect-btn sm-btn btn btn-danger mt-2 mr-2" th:href="@{'/shopworker/delShopWorker/'+${shopworker.id}}"><i class="far fa-trash-alt "></i>删除</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.min.css">
+<script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js">
+</script>
+<script>
+    $('#sortTable').DataTable();
+</script>
+</body>
+</html>

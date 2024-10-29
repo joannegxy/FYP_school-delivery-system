@@ -1,0 +1,115 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!-- Required Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+    <!--Page Specific Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/nice-select.css}">
+    <!-- Custom Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+</head>
+<body>
+<div class="loader">
+    <div class="spinner"><img th:src="@{/images/loader.gif}" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper"><!-- Header Start -->
+    <div th:insert="~{header :: header}"></div>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.ShopWorker')}">
+        <div th:insert="~{sidebar_shopworker :: sidebar_shopworker}"></div></th:block>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.ShopOwner')}">
+        <div th:insert="~{sidebar_shopowner :: sidebar_shopowner}"></div></th:block>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.Deliveryman')}">
+        <div th:insert="~{sidebar_deliveryman :: sidebar_deliveryman}"></div></th:block>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.Customer')}">
+        <div th:insert="~{sidebar_customer :: sidebar_customer}"></div></th:block>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.User')}">
+        <div th:insert="~{sidebar_admin :: sidebar_admin}"></div></th:block>
+
+    <!-- Container Start -->
+    <div class="page-wrapper">
+        <div class="main-content"><!-- Page Title Start -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-box">
+                            <h4 class="page-title">修改密码</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- From Start -->
+            <div class="from-wrapper">
+                <div class="row">
+
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>修改密码</h4>
+                                <br/>
+                                <p class="card-desc">当前用户：[[${session.currentUser}]]</p>
+                            </div>
+                            <div class="card-body">
+                                <form enctype="multipart/form-data" method="post" th:action="@{/pwdUser}">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="form-group row">
+                                            <label class="col-md-2 col-form-label">旧密码</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" type="password" placeholder="旧密码" name="userPwd">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-2 col-form-label">新密码</label>
+                                            <div class="col-md-10">
+                                                <input class="form-control" type="password" placeholder="新密码" name="newPwd" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-0">
+                                            <div class="col-sm-10 offset-sm-2">
+                                                <input class="btn btn-primary" type="submit">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p style="color:red;text-align: center"
+                                   th:if="${not #strings.isEmpty(loginFail)}"
+                                   th:text="${loginFail}">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Required Script -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script><!-- Page Specific Script -->
+<script th:src="@{/js/nice-select.min.js}"></script><!-- Custom Script -->
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

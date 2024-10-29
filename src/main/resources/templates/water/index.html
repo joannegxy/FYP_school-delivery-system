@@ -1,0 +1,48 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!--Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth.css}">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+</head>
+<body>
+<div class="ad-auth-wrapper">
+    <div class="ad-auth-box">
+        <div class="row align-items-center">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="ad-auth-img"><img src="images/auth-img1.png" alt="" /></div>
+            </div>
+            <div class="col align-self-center">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <p style="color:green"
+                       th:if="${not #strings.isEmpty(msg)}"
+                       th:text="${msg}">
+                        <!--这个msg既可以是model里的，也可以是session里的-->
+                    </p>
+                    <div class="ad-auth-btn">
+                        <button type="button" class="ad-btn" style="margin:5px;"><a th:href="@{/logintoadmin}"><span class="menu-text">我是管理员</span></a></button>
+                        <button type="button" class="ad-btn" style="margin:5px;"><a th:href="@{/logintoshopowner}"><span class="menu-text">我是商户</span></a></button>
+                        <button type="button" class="ad-btn" style="margin:5px;"><a th:href="@{/logintoshopworker}"><span class="menu-text">我是商户工作人员</span></a></button>
+                        <button type="button" class="ad-btn" style="margin:5px;"><a th:href="@{/logintocustomer}"><span class="menu-text">我是顾客</span></a></button>
+                        <button type="button" class="ad-btn" style="margin:5px;"><a th:href="@{/logintodeliveryman}"><span class="menu-text">我是配送员</span></a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

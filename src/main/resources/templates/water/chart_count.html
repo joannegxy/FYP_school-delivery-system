@@ -1,0 +1,245 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+<title>校园下单配送系统</title>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="MobileOptimized" content="320">
+<!--Start Style -->
+<link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+<link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+<link rel="stylesheet" id="theme-change" type="text/css" href="#">
+<!-- Favicon Link -->
+<link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+
+  <script th:src="@{/js/highcharts.js}"></script>
+  <script th:src="@{/js/highcharts-3d.js}"></script>
+  <script th:src="@{/js/exporting.js}"></script>
+<script src="https://code.hcharts.cn/plugins/zh_cn.js"></script>
+
+
+  <!--axios-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="loader">
+  <div class="spinner"><img src="assets/images/loader.gif" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper">
+  <div th:insert="~{header :: header}"></div>
+  <div th:insert="~{sidebar_shopowner :: sidebar_shopowner}"></div>
+  <!-- Container Start -->
+  <div class="page-wrapper">
+    <div class="main-content"><!-- Page Title Start -->
+      <div class="row">
+        <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="page-title-wrapper">
+            <div class="page-title-box">
+              <h4 class="page-title bold">销售量统计</h4>
+            </div>
+            <div class="breadcrumb-list">
+              <ul>
+                <li class="breadcrumb-link"><a href="javascript:void(0);"><i class="fas fa-home mr-2"></i>Home</a></li>
+                <li class="breadcrumb-link active">销售量统计</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Chart Start -->
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12"><!-- Basic Area Chart -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <h4>3D饼状图</h4>
+            </div>
+            <div class="card-body">
+
+              <div class="chart-holder">
+               <!-- <div id="chartA"></div> -->
+                <!--饼状图-->
+			   <div id="container" style="height: 400px"></div>
+                <script>
+                  var type=new  Array();
+                  var count=new  Array();
+                  axios({
+                    method:"get",
+                    url:"/main/mainMenu"
+                  }).then(function (rep){
+                    console.log(rep)
+                    for (let i = 0; i < rep.data.length; i++) {
+
+                      const repElement = rep.data[i];
+                      type[i]=repElement.type
+                      count[i]=repElement.mount
+                      console.log(type[i])
+                      //console.log(count[])
+                      // JS 代码
+                      var chart = Highcharts.chart('container', {
+                        chart: {
+                          type: 'pie',
+                          options3d: {
+                            enabled: true,
+                            alpha: 45
+                          }
+                        },
+                        title: {
+                          text: '不同店铺菜品销售数量对比'
+                        },
+                        subtitle: {
+                          text: '销售量的3D环形图'
+                        },
+                        plotOptions: {
+                          pie: {
+                            innerSize: 100,
+                            depth: 45
+                          }
+                        },
+                        series: [{
+                          name: '销售数量',
+                          data: [
+                            [type[0],count[0]],
+                            [type[1],count[1]],
+                            [type[2],count[2]],
+                            [type[3],count[3]],
+                            [type[4],count[4]],
+                            [type[5],count[5]],
+                            [type[6],count[6]],
+                            [type[7],count[7]],
+                            [type[8],count[8]],
+                            [type[9],count[9]],
+                            [type[10],count[10]],
+                            [type[11],count[11]],
+                          ]
+                        }]
+                      });
+                    }
+                  })
+
+                </script>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12"><!-- Area Spaline Chart -->
+          <div class="card chart-card">
+            <div class="card-header">
+              <h4>柱状图</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-holder">
+                <!--柱状图-->
+                <!-- <div id="chartB"></div> -->
+                <div id="container1"></div>
+                <script>
+                  var type=new  Array();
+                  var count=new  Array();
+                  axios({
+                    method:"get",
+                    url:"/main/mainMenu"
+                  }).then(function (rep){
+                    console.log(rep)
+                    for (let i = 0; i < rep.data.length; i++) {
+                      const repElement = rep.data[i];
+                      type[i]=repElement.type
+                      count[i]=repElement.mount
+                      console.log(count[i])
+
+                      // JS 代码
+                      var chart = Highcharts.chart('container1', {
+                        title: {
+                          text: '菜品销售量排行榜'
+                        },
+                        subtitle: {
+                          text: ''
+                        },
+                        xAxis: {
+                          categories: type
+                        },
+                        series: [{
+                          type: 'column',
+                          colorByPoint: true,
+                          data: count,
+                          showInLegend: false
+                        }]
+                      });
+                      // 给 wrapper 添加点击事件
+                      Highcharts.addEvent(document.getElementById('wrapper'), 'click', function(e) {
+                        var target = e.target,
+                                button = null;
+                        if(target.tagName === 'BUTTON') { // 判断点的是否是 button
+                          button = target.id;
+                          switch(button) {
+                            case 'plain':
+                              chart_count.update({
+                                chart: {
+                                  inverted: false,
+                                  polar: false
+                                },
+                                subtitle: {
+                                  text: '普通的'
+                                }
+                              });
+                              break;
+                            case 'inverted':
+                              chart_count.update({
+                                chart: {
+                                  inverted: true,
+                                  polar: false
+                                },
+                                subtitle: {
+                                  text: '反转'
+                                }
+                              });
+                              break;
+                            case 'polar':
+                              chart_count.update({
+                                chart: {
+                                  inverted: false,
+                                  polar: true
+                                },
+                                subtitle: {
+                                  text: '极地图'
+                                }
+                              });
+                              break;
+                          }
+                        }
+                      });
+                    }
+                  })
+
+
+
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/apexcharts/3.6.12/apexcharts.min.js"></script>
+<script th:src="@{/js/apexchart/control-chart-apexcharts.js}">
+
+</script><script th:src="@{/js/custom.js}"></script>
+</body>
+</html>

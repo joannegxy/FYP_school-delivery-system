@@ -1,0 +1,150 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!--Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+    <style>
+        .myWorkerImage{
+            width:40px;
+            height:40px;
+        }
+    </style>
+</head>
+<body>
+<div class="loader">
+    <div class="spinner"><img src="assets/images/loader.gif" alt=""/></div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper">
+    <div th:insert="~{header :: header}"></div>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.ShopWorker')}">
+        <div th:insert="~{sidebar_shopworker :: sidebar_shopworker}"></div></th:block>
+
+    <th:block th:if="${#strings.equals(session.type,'class com.fyp.pojo.ShopOwner')}">
+        <div th:insert="~{sidebar_shopowner :: sidebar_shopowner}"></div></th:block>
+
+    <!-- Container Start -->
+    <div class="page-wrapper">
+        <div class="main-content"><!-- Page Title Start -->
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-box ad-title-box-use">
+                            <span class="page-title" style="font-size: 18px"><strong>订单列表</strong></span>
+                            <div class="dropdown">
+                                <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                    按配送员查看
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" th:href="@{/order/listDeliveringOrder}">全部订单</a>
+                                    <a class="dropdown-item"  th:each="deliveryman : ${deliverymanList}"
+                                                              th:text="${deliveryman.deliverymanloginid}"
+                                                              th:href="@{'/order/checkDeliverymanOrder/'+${deliveryman.id}}"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Table Start -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="card-header pb-0">
+                        <h4>订单列表</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-holder">
+                            <div class="table-responsive">
+                                <table class="table table-styled mb-0" id="sortTable">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>订单编号</th>
+                                        <th>商品名称</th>
+                                        <th>购买数量</th>
+                                        <th>总额</th>
+                                        <th>收货人</th>
+                                        <th>收货地址</th>
+                                        <th>备注</th>
+                                        <th>下单时间</th>
+                                        <th>配送状态</th>
+                                        <th>配送员</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="order : ${pageInfo.list}">
+                                        <td>
+                                            <input type="checkbox" th:value="${order.id}" name="chkHistory"/>
+                                        </td>
+
+                                        <td th:text="${order.id}"></td>
+                                        <td><span class="img-thumb"><img class="squer-img myWorkerImage" th:src="'http://localhost:8088/'+${order.item.fimage}" alt=" "><span class="ml-2 ">[[${order.item.itemName}]]</span></span></td>
+                                        <td th:text="${order.count}"></td>
+                                        <td th:text="${order.total}"></td>
+                                        <td th:text="${order.customer.customerloginid}"></td>
+                                        <td th:text="${order.address}"></td>
+                                        <td th:text="${order.note}"></td>
+                                        <td th:text="${#dates.format(order.orderTime)}"></td>
+                                        <td>
+                                            <label th:if="${order.status}==0" class="mb-0 badge badge-light" title="" data-original-title="Pending">未打包</label>
+                                            <label th:if="${order.status}==1" class="mb-0 badge badge-info" title="Pending">打包中</label>
+                                            <label th:if="${order.status}==2" class="mb-0 badge badge-info" title="Pending">打包完成</label>
+                                            <label th:if="${order.status}==3" class="mb-0 badge badge-info" title="Pending">安排配送中</label>
+                                            <label th:if="${order.status}==4" class="mb-0 badge badge-info" title="Pending">配送中</label>
+                                            <label th:if="${order.status}==5" class="mb-0 badge badge-success" title="Pending">已送达</label>
+                                            <label th:if="${order.status}==6" class="mb-0 badge badge-success" title="Pending">已确认收货</label>
+                                        </td>
+                                        <td th:text="${order.deliveryman.deliverymanloginid}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.min.css">
+<script src="https://cdn.datatables.net/2.0.6/js/dataTables.min.js">
+</script>
+<script>
+    $('#sortTable').DataTable();
+</script>
+<script>
+    $('.dropdown-toggle').dropdown();
+</script>
+</body>
+</html>

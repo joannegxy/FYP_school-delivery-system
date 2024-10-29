@@ -1,0 +1,169 @@
+<!DOCTYPE html><!--[if IE 8]><html lang="en" class="ie8 no-js"><![endif]--><!--[if IE 9]><html lang="en" class="ie9 no-js"><![endif]--><!--[if!IE]><!-->
+<html lang="zxx">
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]--><!-- Begin Head -->
+<head>
+    <title>校园下单配送系统</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="MobileOptimized" content="320">
+    <!--Start Style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fonts.css}">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/icofont.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" id="theme-change" type="text/css" href="#">
+    <!-- Favicon Link -->
+    <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}">
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+    <style>
+        .myWorkerImage{
+            width:40px;
+            height:40px;
+        }
+    </style>
+    <!--批量删除-->
+    <script>
+        $(function () {
+            $("#selectAll").click(function () {
+                $("input[name=chkHistory]").prop("checked",$(this).prop("checked"));
+            })
+
+            $("#batchDelete").click(function () {
+                let chList = $("input[name=chkHistory]:checked");
+                if (chList.length == 0){
+                    alert("请至少选择一项");
+                    return;
+                }
+                let ids = "";
+                $(chList).each(function () {
+                    let id = $(this).val();
+                    ids += ","+id;
+                })
+                $.ajax({
+                    url:'/normalUser/batchDeleteMyOrder',
+                    data:{
+                        idList:ids
+                    },
+                    method:'POST',
+                    success:function (data) {
+                        if (data == "OK"){
+                            alert("批量删除成功");
+                            window.location.href ="/normalUser/myOrders";
+                        }else {
+                            alert("批量删除失败");
+                        }
+                    }
+                })
+
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="loader">
+    <div class="spinner"><img src="assets/images/loader.gif" alt=""/></div>
+</div>
+<div class="page-wrapper"><!-- Header Start -->
+    <div th:insert="~{header :: header}"></div>
+    <div th:insert="~{sidebar_customer :: sidebar_customer}"></div>
+    <!-- Container Start -->
+    <div class="page-wrapper">
+        <div class="main-content"><!-- Page Title Start -->
+            <div class="row">
+                <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-box">
+                            <h4 class="page-title">发票</h4>
+                        </div>
+                        <div class="breadcrumb-list">
+                            <ul>
+                                <li class="breadcrumb-link"><a href="javascript:void(0);"><i class="fas fa-home mr-2"></i>Dashboard</a></li>
+                                <li class="breadcrumb-link active">发票</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table Start -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="ad-invoice-title">
+                                <h4>订单编号 - [[${order.id}]]</h4>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h5 class="mb-2">付款人:</h5>
+                                    <p>[[${order.customer.customerloginid}]]</p>
+
+                                </div>
+                                <div class="col-sm-6 text-sm-end">
+                                    <h5 class="mb-2">收款人:</h5>
+                                    <p>[[${order.item.store}]]</p>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 mt-3">
+                                    <h5 class="mb-2">付款人信息:</h5>
+                                    <p>邮箱：[[${order.customer.email}]]</p>
+                                    <p>手机：[[${order.customer.phone}]]</p>
+                                    <p>收货地址：[[${order.customer.address}]]</p>
+                                </div>
+                                <div class="col-sm-6 mt-3 text-sm-end">
+                                    <h5 class="mb-2">订单日期:</h5>
+                                    <p th:text="${#dates.format(order.orderTime)}"></p>
+                                </div>
+                            </div>
+                            <div class="py-2 mt-3 mb-2">
+                                <h4 class="font-size-15">订单详情</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-styled mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 70px;">编号</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th class="text-end">价钱</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>[[${order.id}]]</td>
+                                        <td>[[${order.item.price}]]</td>
+                                        <td>[[${order.count}]]</td>
+                                        <td class="text-end">￥[[${order.total}]]</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-print-none mt-2">
+                                <div class="float-end">
+                                    <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light me-1"><i class="fa fa-print"></i></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Script Start -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+</html>
